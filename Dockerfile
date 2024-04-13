@@ -1,4 +1,4 @@
-FROM node:17.9-alpine3.14
+FROM node:18-alpine3.14
 
 RUN apk add --no-cache python3 py3-pip
 RUN apk add --no-cache postgresql-dev gcc python3-dev musl-dev

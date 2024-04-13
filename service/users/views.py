@@ -25,8 +25,12 @@ class AuthViewSet(ModelViewSet):
         if serializer.is_valid():
             user = serializer.save()
             login(request, user)
+            headers = {
+                'Access-Control-Allow-Origin': '*'
+            }
             return Response(
                 serializer.data,
+                headers=headers,
                 status=status.HTTP_201_CREATED
             )
         else:
