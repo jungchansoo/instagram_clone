@@ -32,6 +32,30 @@ class AuthViewSet(ModelViewSet):
         login(request, user)
         return Response(
                 serializer.data,
-                headers=headers,
                 status=status.HTTP_201_CREATED
         )
+
+    def signin(self, request):
+        user = authenticate(request, email=request.data['email'], password=request.data['password'])
+
+        if user is not None:
+            pass
+            login(request, user)
+            serializer = self.get_serializer(user)
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+        else:
+            try:
+                user = User.objects.get(email=request.data['email'])
+                message = "비밀번호를 확인해주세요."
+            except User.DoesNotExist:
+                message = "해당 이메일을 사용하는 사용자가 존재하지 않습니다."
+
+            return Response(
+                {
+                    "message": message
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )

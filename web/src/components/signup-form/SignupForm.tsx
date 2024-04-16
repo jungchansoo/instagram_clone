@@ -49,7 +49,7 @@ const SignupForm = () => {
       <img className="form-logo" src="logo.png"  alt="logo.png" />
       <input className="form-input" type="text" {...register("email",emailOpts)}placeholder="이메일"/>
       <input className="form-input" type="text" {...register("username",usernameOpts)}placeholder="사용자이름"/>
-      <input className="form-input" type="password" {...register("pasword",passwordOpts)}placeholder="비밀번호"/>
+      <input className="form-input" type="password" {...register("password",passwordOpts)}placeholder="비밀번호"/>
       <button className="form-btn form-btn-blue" type="submit" disabled={!isValid} >가입</button>
       {errorMsg !== "" && <div className="form-error">{errorMsg}</div>}
     </form>

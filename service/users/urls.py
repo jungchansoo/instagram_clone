@@ -8,6 +8,11 @@ signup = AuthViewSet.as_view({
     'post': 'signup'
 })
 
+signin = AuthViewSet.as_view({
+    'post': 'signin'
+})
+
 urlpatterns = [
-    path('/signup',signup)
+    path('/signup',signup),
+    path('/signin',signin)
 ]

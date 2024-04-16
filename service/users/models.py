@@ -12,7 +12,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-        extra_fields.set_default('is_staff', True)
+        extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
         return self.create_user(email, password, **extra_fields)
@@ -22,8 +22,8 @@ class User(AbstractUser):
     TIMEOUT = 60 * 5
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
-    email = models.EmailField(max_length=256, unique=True)
     
+    email = models.EmailField(max_length=256, unique=True)
     username = models.CharField(max_length=128, unique=True)
     password = models.CharField(max_length=128, null=True, blank=True)
     profile = models.ImageField(null=False, blank=True)
@@ -34,7 +34,6 @@ class User(AbstractUser):
     updated = models.DateTimeField(auto_now=True)
 
     objects = UserManager()
-    UserManager = UserManager()
 
     class Meta:
         ordering = ['created']
