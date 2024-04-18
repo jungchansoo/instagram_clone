@@ -1,6 +1,6 @@
 import LockIcon from '../../icons/lock.svg'
 
-const PaaswordForm = () => {
+const PasswordForm = () => {
     return (
         <form className="password-form">
             <img className="form-content-icon" src={LockIcon} alt="lock.svg" />
@@ -14,4 +14,4 @@ const PaaswordForm = () => {
     );
 }
 
-export default  PaaswordForm
+export default  PasswordForm;
