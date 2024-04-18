@@ -9,9 +9,9 @@ const PasswordForm = () => {
             <input className="form-input" type="text" placeholder='이메일' />
             <button className="form-btn form-btn-blue" type="submit">인증코드 전송하기</button>
             <a className="signup-link noline-link" href="/signup">새 계정 만들기</a>
-            <button className="form-btn form-btn-bottom">로그인으로 돌아가기</button>
+            <button className="form-btn form-btn-bottom" >로그인으로 돌아가기</button>
         </form>
     );
 }
 
-export default  PasswordForm;
+export default PasswordForm;
