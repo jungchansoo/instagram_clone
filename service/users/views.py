@@ -160,7 +160,8 @@ class AuthViewSet(ModelViewSet):
                     "message": "이메일이 없습니다."
                 },
                 status=status.HTTP_400_BAD_REQUEST
-
+            )
+         
         # 사용자 객체 가져오기
         try:
             user = User.objects.get(email=email)
