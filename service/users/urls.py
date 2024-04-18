@@ -24,5 +24,6 @@ password = AuthViewSet.as_view({
 urlpatterns = [
     path('/signup',signup),
     path('/signin',signin),
-    path('/authcode',authcode)
+    path('/authcode',authcode),
+    path('/password',password)
 ]

@@ -99,7 +99,7 @@ class AuthViewSet(ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         #인증코드확인
-        authcode = request.date.get('authcode', None)
+        authcode = request.data.get('authcode', None)
         if authcode is None:
             return Response(
                 {
@@ -111,7 +111,7 @@ class AuthViewSet(ModelViewSet):
         # 해당 이메일 사용자 객체 가져오기
         try:
             user = User.objects.get(email=email)
-        except user.DoesNotExist:
+        except User.DoesNotExist:
             return Response(
                 {                
                     "message": "해당 이메일을 가진 사용자가 존재하지 않습니다. 이메일을 확인해주세요"
@@ -157,7 +157,7 @@ class AuthViewSet(ModelViewSet):
         if password is None :
             return Response(
                 {
-                    "message": "이메일이 없습니다."
+                    "message": "비밀번호가 없습니다."
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
@@ -178,11 +178,14 @@ class AuthViewSet(ModelViewSet):
             user.change_lostpassword(password)
         except Exception as e:
             return Response(
-                {
+                {   
                     "message": str(e)
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
         return Response(
+            {   
+                    "message": "비밀번호가 변경되었습니다."
+            },
             status=status.HTTP_200_OK
         )

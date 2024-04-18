@@ -50,7 +50,7 @@ class User(AbstractUser):
     def _create_authcode(self):
         timestamp = int(time.time())
         while True:
-            authcode = hashlib.sha224(f"{repr(self)}:{timestamp}".encode()).hexdigit()[:6]
+            authcode = hashlib.sha224(f"{repr(self)}:{timestamp}".encode()).hexdigest()[:6]
             try:
                 User.objects.get(authcode=authcode)
             except User.DoesNotExist:
@@ -61,7 +61,7 @@ class User(AbstractUser):
     
     def create_authcode(self):
         if self.authcode != "":
-            splited = self.authcode.splited(":")
+            splited = self.authcode.split(":")
             if time.time() - int(splited[-1]) < self.TIMEOUT:
                 raise ValidationError("5분 이후에 인증 코드를 생성할 수 있습니다.")
         authcode = self._create_authcode()
@@ -75,7 +75,7 @@ class User(AbstractUser):
         if time.time() - int(splited[-1]) > self.TIMEOUT:
             raise ValidationError("인증코드가 만료되었습니다. 인증코드를 새로 생성해 주세요.")
         
-        if split[0] == authcode:
+        if splited[0] == authcode:
             return True
         else:
             return False
