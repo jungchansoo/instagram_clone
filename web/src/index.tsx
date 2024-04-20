@@ -1,8 +1,18 @@
+// react modules
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+
+// External modules
+import axios from 'axios';
+
+// styles
+import './index.css';
+
+//Components
+import App from './App';
+
+axios.defaults.baseURL = 'http://localhost:9998';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

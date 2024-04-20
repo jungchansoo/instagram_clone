@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 // External modeuls
 import axios from 'axios';
-const url = 'http://localhost:9998/users/signup';
 
 const SignupForm = () => {
   const emailOpts : RegisterOptions = {
@@ -27,7 +26,7 @@ const SignupForm = () => {
 
   const submit = (data: any) => {
     console.log(data);
-    axios.post(url, data)
+    axios.post('/users/signup', data)
       .then((resp)=>{
         console.log(resp);
         localStorage.setItem("userId", resp.data.pk);

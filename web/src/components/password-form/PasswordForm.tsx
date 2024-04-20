@@ -25,6 +25,7 @@ const PasswordForm = () => {
     const [btnLabel, setbtnLabel] = useState("인증코드 전송하기");
     const [time,setTime] = useState(299);
     const [timeStr,setTimeStr] = useState("5:00");
+    const [errorMsg, setErrorMsg] = useState("");
     const { register, setValue, getValues, reset, formState: {errors, isDirty}} = useForm({ mode : 'onChange'})
     const navi = useNavigate();
     
@@ -54,15 +55,58 @@ const PasswordForm = () => {
     
     const handleInput = () => {
         let data = getValues();
-        console.log(data);
         if(current === 'email'){
-            setCurrent('authcode');
-            setbtnLabel('인증코드 확인하기');
+            setValue('email', data.email, {shouldValidate: true, shouldDirty: true});
+            console.log(errors);
+            if (errors?.email?.type === "required"){
+                setErrorMsg("이메일을 입력해 주세요.");
+            } else if (errors?.email?.type === "pattern"){
+                setErrorMsg("올바른 이메일 형식이 아닙니다.");
+            } else if (isDirty && (errors.email === undefined)){
+                axios.post('/users/authcode',data)
+                    .then((resp)=>{
+                        console.log(resp);
+                        reset({...data}, {keepDirty: false});
+                        setCurrent('authcode');
+                        setbtnLabel('인증코드 확인하기');
+                        setErrorMsg("");
+                        window.alert(resp.data.authcode);
+                    })
+                    .catch((error)=>{
+                        console.log(error.response.data.message);
+                    });
+            }
         }else if(current === 'authcode'){
-            setCurrent('password');
-            setbtnLabel('비밀번호 변경');
-        }else if(current === 'password'){
+            setValue('authcode', data.authcode, {shouldValidate: true, shouldDirty: true})
+            if(errors?.authcode?.type === 'pattern'){
+             setErrorMsg("인증코드 형식에 맞지 않습니다.");
+            } else if (isDirty && (errors?.authcode === undefined)){
+                axios.put('/users/authcode',data)
+                    .then((resp)=>{
+                        reset({...data}, {keepDirty: false});
+                        setCurrent('password');
+                        setbtnLabel('비밀번호 변경');
+                        setErrorMsg("");
+                    })
+                    .catch((error)=>{
+                        setErrorMsg(error.response.data.message);
+                    })
+            }
 
+            
+        }else if(current === 'password'){
+            setValue('password', data.password, {shouldValidate: true, shouldDirty: true})
+            if (errors?.password?.type === 'minLength'){
+                setErrorMsg("비밀번호 형식에 맞지 않습니다.");
+            } else if ( isDirty && (errors.password === undefined)){
+                axios.put('/users/password',data)
+                    .then((resp)=>{
+                        navi('/signin', {replace:true})
+                    })
+                    .catch((error)=>{
+                        setErrorMsg(error.response.data.message);
+                    });
+            }
         }
     }
 
@@ -92,6 +136,7 @@ const PasswordForm = () => {
             }
             <button className="form-btn form-btn-blue" type='button' onClick={handleInput}>{btnLabel}</button>
             <Link className="signup-link noline-link" to="/signup">새 계정 만들기</Link>
+            { errorMsg !== "" && <div className="form-error">{errorMsg}</div>}
             <button className="form-btn form-btn-bottom" onClick={()=>toSignin()}>로그인으로 돌아가기</button>
         </form>
     );
