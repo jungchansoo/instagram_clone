@@ -125,15 +125,28 @@ nav {
     border-top: 1px solid #DBDBDB;
     padding-bottom: 0px;
     margin-top: 5px;
+    cursor: pointer;
 }
 
 .icon-label-container { 
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #1b1a1a;
     padding: 14px;
 }
 
 .icon-label {
     padding-left: 8px;
     font-size: 15px;
+}
+
+.nav-menu-background-show {
+    display: block;       /* 화면에 표시 */
+    position: fixed;      /* 고정 위치 */
+    top: 0;               /* 상단에서부터 */
+    left: 0;              /* 좌측에서부터 */
+    width: 100%;          /* 전체 너비 */
+    height: 100%;         /* 전체 높이 */
+    z-index: 0;         /* 다른 요소들을 덮도록 높은 z-index */
 }
